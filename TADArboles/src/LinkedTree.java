@@ -51,13 +51,28 @@ public class LinkedTree<E> implements NAryTree<E> {
     private int size;
     @Override
     public Position<E> addRoot(E e) {
+        if(!isEmpty()){
+            throw new RuntimeException("The tree has already a root node");
+        }
+        root = new TreeNode<>(e);
+        size++;
+        return root;
+    }
 
-        throw new UnsupportedOperationException("Not supported yet.");
+    private TreeNode<E> checkPosition(Position<E> p) {
+        if (!(p instanceof TreeNode)) {
+            throw new RuntimeException("The position is invalid");
+        }
+        return (TreeNode<E>) p;
     }
 
     @Override
     public Position<E> add(E element, Position<E> p) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        TreeNode<E> parent = checkPosition(p);
+        TreeNode<E> newNode = new TreeNode<>(element, parent);
+        parent.getChildren().add(newNode);
+        size++;
+        return newNode;
     }
 
     @Override
@@ -92,16 +107,17 @@ public class LinkedTree<E> implements NAryTree<E> {
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return size == 0;
     }
 
     @Override
     public Position<E> root() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return root;
     }
 
     @Override
     public Position<E> parent(Position<E> v) {
+
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
