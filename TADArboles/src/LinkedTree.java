@@ -1,5 +1,6 @@
 import material.Position;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -179,10 +180,23 @@ public class LinkedTree<E> implements NAryTree<E> {
 
     @Override
     public Iterator<Position<E>> iterator() {
-        throw new UnsupportedOperationException("Not supported yet.");
+
+        List<Position<E>>positions = new ArrayList<>();
+        breadthOrder(root, positions);
+        return positions.iterator();
     }
 
-    public int size() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    private void breadthOrder(TreeNode<E> node, List<Position<E>> positions) {
+        if(root != null){
+            List<TreeNode> queue = new ArrayList<>();
+            queue.add(node);
+            while(!queue.isEmpty()){
+                TreeNode<E> toExplore = queue.remove(0);
+                positions.add(toExplore);
+                queue.addAll(node.getChildren());
+            }
+        }
     }
+
+    public int size() { return size;}
 }
