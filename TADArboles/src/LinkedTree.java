@@ -1,7 +1,7 @@
 import material.Position;
 
 import java.util.Iterator;
-
+import java.util.List;
 
 /**
  * This class represents a tree data structure using a linked implementation.
@@ -19,15 +19,39 @@ public class LinkedTree<E> implements NAryTree<E> {
      */
     private class TreeNode<T> implements Position<T> {
 
+        private List<TreeNode<T>> children;
+        private T element;
+        TreeNode<T> parent;
+
+        public TreeNode(T element) {
+            this.element = element;
+        }
+
+        public TreeNode(T element, TreeNode<T> parent) {
+            this.element = element;
+            this.parent = parent;
+        }
+
+        public List<TreeNode<T>> getChildren() {
+            return children;
+        }
+
+        public TreeNode<T> getParent() {
+            return parent;
+        }
+
         @Override
         public T getElement() {
-            throw new UnsupportedOperationException("Not supported yet.");
+            return this.element;
         }
 
     }
 
+    private TreeNode<E> root;
+    private int size;
     @Override
     public Position<E> addRoot(E e) {
+
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
