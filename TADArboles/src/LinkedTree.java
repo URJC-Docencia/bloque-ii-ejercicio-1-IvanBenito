@@ -77,28 +77,64 @@ public class LinkedTree<E> implements NAryTree<E> {
 
     @Override
     public Position<E> add(E element, Position<E> p, int n) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        TreeNode<E> parent = checkPosition(p);
+        checkPositionOfChildrenList(n, parent);
+        TreeNode<E> newNode = new TreeNode<>(element, parent);
+        parent.getChildren().add(newNode);
+        size++;
+        return newNode;
+    }
+
+    private void checkPositionOfChildrenList(int n, TreeNode<E> parent) {
     }
 
     @Override
     public void swapElements(Position<E> p1, Position<E> p2) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        TreeNode<E> node1 = checkPosition(p1);
+        TreeNode<E> node2 = checkPosition(p2);
+        E aux = node1.getElement();
+        node1.element = node2.getElement();
+        node2.element = aux;
     }
 
     @Override
     public E replace(Position<E> p, E e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        TreeNode<E> node = checkPosition(p);
+        E old = node.getElement();
+        node.element = e;
+        return old;
     }
 
     @Override
     public void remove(Position<E> p) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        TreeNode<E> node = checkPosition(p);
+        if(node == root){
+            root = null;
+            size = 0;
+        }else {
+            TreeNode<E> parent = node.getParent();
+            parent.getChildren().remove(node);
+            size -= computeSize(node);
+        }
+    }
+
+    private int computeSize(TreeNode<E> node){
+        int size = 1;
+        for (TreeNode<E> child : node.getChildren()) {
+            size += computeSize(child);
+        }
+        return size;
     }
 
     @Override
     public NAryTree<E> subTree(Position<E> v) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        TreeNode<E> node = checkPosition(v);
+        LinkedTree<E> tree = new LinkedTree<>();
+        tree.root = node;
+        tree.size = computeSize(node);
+        return tree;
     }
+
 
     @Override
     public void attach(Position<E> p, NAryTree<E> t) {
